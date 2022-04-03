@@ -31,6 +31,11 @@ export const loginUser = (data: ISignInRequest) => async (dispatch: AppDispatch)
 	}
 };
 
+export const logoutUser = () => async (dispatch: AppDispatch) => {
+	localStorage.removeItem(storageName);
+	dispatch(userSlice.actions.userLogout());
+};
+
 export const checkLogin = () => async (dispatch: AppDispatch) => {
 	const token = getAuthToken();
 

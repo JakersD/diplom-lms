@@ -26,6 +26,9 @@ export const userSlice = createSlice({
 		userLoginClearError(state: Draft<IUsersState>) {
 			return { ...state, errorMsg: '', error: false };
 		},
+		userLogout(state: Draft<IUsersState>) {
+			return { ...state, isAuthenticated: false };
+		},
 	},
 });
 

@@ -9,7 +9,3 @@ export const getAuthToken = (): string | null => {
 
 	return null;
 };
-
-export const logout = () => {
-	localStorage.removeItem(storageName);
-};
