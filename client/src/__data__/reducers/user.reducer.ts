@@ -1,15 +1,16 @@
 import { createSlice, Draft, PayloadAction } from '@reduxjs/toolkit';
 
-import { IUsersState, IUserData } from '../models/user.model';
+import { IUsersState } from '../models/user.model';
 
 const initialState: IUsersState = {
 	data: null,
 	isLoading: false,
 	error: false,
 	errorMsg: '',
+	isAuthenticated: false,
 };
 
-export const usersSlice = createSlice({
+export const userSlice = createSlice({
 	name: 'user',
 	initialState: initialState,
 	reducers: {
@@ -19,8 +20,8 @@ export const usersSlice = createSlice({
 		userLoginFailure(state: Draft<IUsersState>, action: PayloadAction<string>) {
 			return { ...state, isLoading: false, error: true, errorMsg: action.payload };
 		},
-		userLoginSuccess(state: Draft<IUsersState>, action: PayloadAction<IUserData>) {
-			return { ...state, isLoading: false, data: action.payload };
+		userLoginSuccess(state: Draft<IUsersState>) {
+			return { ...state, isLoading: false, isAuthenticated: true };
 		},
 		userLoginClearError(state: Draft<IUsersState>) {
 			return { ...state, errorMsg: '', error: false };
@@ -28,4 +29,4 @@ export const usersSlice = createSlice({
 	},
 });
 
-export default usersSlice.reducer;
+export default userSlice.reducer;

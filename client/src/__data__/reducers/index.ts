@@ -1,4 +1,4 @@
-import usersReducer from './user.reducer';
-import { usersSlice } from './user.reducer';
+import user from './user.reducer';
+import { userSlice } from './user.reducer';
 
-export { usersReducer, usersSlice };
+export { user, userSlice };

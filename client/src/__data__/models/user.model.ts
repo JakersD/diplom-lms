@@ -1,16 +1,20 @@
 export type TError = unknown;
 
+export const storageName = 'userData';
+
 export interface ISignInRequest {
 	username: string;
 	password: string;
 }
 
 export interface IUserData {
-	username: string;
+	token: string;
+	isAuthenticated: boolean;
 }
 
 export interface IUsersState {
-	data: IUserData | null;
+	data?: IUserData | null;
+	isAuthenticated: boolean;
 	isLoading: boolean;
 	error: boolean;
 	errorMsg: string;

@@ -1,4 +1,4 @@
-import Main from './main/main.page';
-import Login from './login/login.page';
+import MainPage from './main/main.page';
+import LoginPage from './login/login.page';
 
-export { Main, Login };
+export { MainPage, LoginPage };

@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
-import { Grid, Button, Typography } from '@mui/material';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useSnackbar } from 'notistack';
+import { Grid, Typography } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 import { STextField, SContainer } from './login.page.style';
 import { useInput } from '../../__data__/hooks/useInput';
 import { EValidationType } from '../../__data__/models';
-
-import { fetchUser } from '../../__data__/middlewares/user.middleware';
-import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../__data__/middlewares';
 import { checkValidation } from '../../__data__/utils';
-import { useSnackbar } from 'notistack';
 import { useTypedSelector } from '../../__data__/hooks';
 
-const Login: React.FC = () => {
+const LoginPage: React.FC = () => {
 	const username = useInput('username', [
 		{ type: EValidationType.IS_REQUIRED },
 		{ type: EValidationType.MIN_LENGTH, value: 8 },
@@ -19,7 +19,7 @@ const Login: React.FC = () => {
 	const password = useInput('password', [{ type: EValidationType.IS_REQUIRED }]);
 	const { enqueueSnackbar } = useSnackbar();
 	const dispatch = useDispatch();
-	const { error, errorMsg } = useTypedSelector((state) => state?.usersReducer);
+	const { error, errorMsg, isLoading } = useTypedSelector((state) => state?.user);
 
 	const submitHandler = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -27,7 +27,7 @@ const Login: React.FC = () => {
 		try {
 			checkValidation(username, password);
 
-			dispatch(fetchUser({ username: username.value, password: password.value }));
+			dispatch(loginUser({ username: username.value, password: password.value }));
 		} catch (errorMsg) {
 			enqueueSnackbar(errorMsg as string, {
 				variant: 'error',
@@ -69,9 +69,16 @@ const Login: React.FC = () => {
 							name='password'
 							fullWidth
 						/>
-						<Button size='large' variant='contained' color='primary' type='submit' fullWidth>
+						<LoadingButton
+							size='large'
+							variant='contained'
+							color='primary'
+							type='submit'
+							loading={isLoading}
+							fullWidth
+						>
 							Войти
-						</Button>
+						</LoadingButton>
 					</Grid>
 				</Grid>
 			</SContainer>
@@ -79,4 +86,4 @@ const Login: React.FC = () => {
 	);
 };
 
-export default Login;
+export default LoginPage;
