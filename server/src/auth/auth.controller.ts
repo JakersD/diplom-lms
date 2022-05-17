@@ -29,12 +29,18 @@ export class AuthController {
         return req.user;
     }
 
-    @UseGuards(JwtAuthGuard, RoleGuard)
-    @Role(ERole.student)
-    @Get('/getCat')
-    getCat() {
-        return {
-            cat: 'Голубой котенок',
-        };
+    @UseGuards(JwtAuthGuard)
+    @Get('/check')
+    checkAuth() {
+        return 'ok';
     }
+
+    // @UseGuards(JwtAuthGuard, RoleGuard)
+    // @Role(ERole.student)
+    // @Get('/getCat')
+    // getCat() {
+    //     return {
+    //         cat: 'Голубой котенок',
+    //     };
+    // }
 }

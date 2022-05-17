@@ -12,10 +12,7 @@ import { checkValidation } from '../../__data__/utils';
 import { useTypedSelector } from '../../__data__/hooks';
 
 const LoginPage: React.FC = () => {
-	const username = useInput('username', [
-		{ type: EValidationType.IS_REQUIRED },
-		{ type: EValidationType.MIN_LENGTH, value: 8 },
-	]);
+	const username = useInput('username', [{ type: EValidationType.IS_REQUIRED }]);
 	const password = useInput('password', [{ type: EValidationType.IS_REQUIRED }]);
 	const { enqueueSnackbar } = useSnackbar();
 	const dispatch = useDispatch();
