@@ -4,6 +4,9 @@ export interface User extends Document {
     readonly username: string;
     readonly password: string;
     readonly role: ERole;
+    readonly fio: string;
+    readonly level: number;
+    readonly semester: number;
 }
 
 export enum ERole {

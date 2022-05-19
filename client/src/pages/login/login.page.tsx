@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 import { Grid, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-import { STextField, SContainer } from './login.page.style';
+import { STextField, SContainer } from './Login.page.style';
 import { useInput } from '../../__data__/hooks/useInput';
 import { EValidationType } from '../../__data__/models';
 import { loginUser } from '../../__data__/middlewares';

@@ -1,11 +1,14 @@
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 
+export const SNavbar = styled('nav')(() => ({
+	backgroundColor: '#fff',
+	padding: '24px 30px',
+}));
+
 export const SWrapper = styled('div')(() => ({
 	maxWidth: '1720px',
 	margin: '0 auto',
-	padding: '24px 30px',
-	backgroundColor: '#fff',
 }));
 
 export const SFlexContainer = styled('div')(() => ({

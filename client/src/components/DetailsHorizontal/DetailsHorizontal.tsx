@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { generateKey } from '../../__data__/utils';
-import { SDetail, STitle, SFlexContainer, SDetailsBlock } from './Details.style';
+import { SDetail, STitle, SFlexContainer, SDetailsBlock } from './DetailsHorizontal.style';
 
 interface IDetails {
 	title: string;

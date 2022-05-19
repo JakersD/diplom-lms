@@ -1,24 +1,23 @@
 import { Body, Controller, Get, Post, Request, UseGuards, ValidationPipe } from '@nestjs/common';
+import { omit } from 'lodash';
 
-import { AuthService } from './auth.service';
-import { Role } from './decorators/role.decorator';
+import { UsersService } from './users.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { RoleGuard } from './guards/role.guard';
-import { ERole } from './interfaces/user.interface';
+import { User } from './interfaces/users.interface';
 
-@Controller('auth')
-export class AuthController {
-    constructor(private authService: AuthService) {}
+@Controller('users')
+export class UsersController {
+    constructor(private authService: UsersService) {}
 
-    @Post('/signup')
+    @Post('/auth/signup')
     async signUp(@Body(ValidationPipe) AuthCredentialsDto: AuthCredentialsDto): Promise<void> {
         return await this.authService.signUp(AuthCredentialsDto);
     }
 
     @UseGuards(LocalAuthGuard)
-    @Post('/signin')
+    @Post('/auth/signin')
     async sighIn(@Request() req) {
         return this.authService.signIn(req.user);
     }
@@ -26,11 +25,13 @@ export class AuthController {
     @UseGuards(JwtAuthGuard)
     @Get('/profile')
     getProfile(@Request() req) {
-        return req.user;
+        const user: User = req.user;
+
+        return omit(user, ['_id', 'username']);
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get('/check')
+    @Get('/auth/check')
     checkAuth() {
         return 'ok';
     }

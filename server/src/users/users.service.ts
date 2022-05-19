@@ -5,12 +5,12 @@ import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
-import { ERole, User } from './interfaces/user.interface';
+import { ERole, User } from './interfaces/users.interface';
 
 @Injectable()
-export class AuthService {
+export class UsersService {
     constructor(
-        @InjectModel('User') private userModel: Model<User>,
+        @InjectModel('Users') private userModel: Model<User>,
         private jwtService: JwtService,
     ) {}
 

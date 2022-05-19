@@ -3,8 +3,8 @@ import { CalendarPicker } from '@mui/x-date-pickers';
 import { PickersDay, PickersDayProps, pickersDayClasses } from '@mui/x-date-pickers/PickersDay';
 import isSameDay from 'date-fns/isSameDay';
 
-import { Container, Details } from '../../../components';
-import { SClassesContainer, SClassesItem, SClassesMessage } from './index.style';
+import { Container, DetailslHorizontal } from '../../../../components';
+import { SClassesContainer, SClassesItem, SClassesMessage } from './ClassesNotStarted.style';
 
 const renderWeekPickerDay = (date: Date, selectedDates: Array<Date | null>, pickersDayProps: PickersDayProps<Date>) => {
 	const matchedStyles = tempHighlightedDays.reduce((a, v) => {
@@ -69,7 +69,7 @@ const ClassesNotStarted: React.FC = () => {
 			<SClassesItem>
 				<SClassesMessage>Просмотр расписания пока невозможен, вернитесь позже</SClassesMessage>
 				<Container>
-					<Details details={tempDetails} />
+					<DetailslHorizontal details={tempDetails} />
 				</Container>
 			</SClassesItem>
 			<Container>

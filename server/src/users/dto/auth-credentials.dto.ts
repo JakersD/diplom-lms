@@ -1,6 +1,6 @@
 import { IsString, MinLength } from 'class-validator';
 
-import { ERole } from '../interfaces/user.interface';
+import { ERole } from '../interfaces/users.interface';
 
 export class AuthCredentialsDto {
     @IsString()

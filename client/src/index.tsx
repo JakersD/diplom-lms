@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { SnackbarProvider } from 'notistack';
-import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -28,5 +27,3 @@ ReactDOM.render(
 	</SnackbarProvider>,
 	document.getElementById('root')
 );
-
-reportWebVitals();

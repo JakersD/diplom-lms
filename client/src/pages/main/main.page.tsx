@@ -1,7 +1,6 @@
 import React from 'react';
-import { Typography } from '@mui/material';
 
-import ClassesNotStarted from './ClassesNotStarted/ClassesNotStarted';
+import ClassesNotStarted from './student/ClassesNotStarted/ClassesNotStarted';
 import { MainTitle, Navbar } from '../../components';
 
 export const MainPage: React.FC = () => {

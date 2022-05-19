@@ -6,7 +6,7 @@ import { LoginPage, MainPage, ProfilePage } from '../../pages';
 import { checkLogin } from '../middlewares/user.middleware';
 import { useTypedSelector } from './useRedux';
 
-export const useRoutes: React.FC = () => {
+export const useRoutes = () => {
 	const isAuth = useTypedSelector((state) => state.user.isAuthenticated);
 	const dispatch = useDispatch();
 
