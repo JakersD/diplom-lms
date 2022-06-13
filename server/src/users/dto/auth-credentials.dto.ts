@@ -12,4 +12,6 @@ export class AuthCredentialsDto {
 
     @IsString()
     role: ERole;
+
+    facultyId: string;
 }

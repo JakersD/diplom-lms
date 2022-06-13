@@ -1,3 +1,4 @@
 export enum EEndpoints {
-	signIn = 'auth/signIn',
+	signIn = 'users/auth/signIn',
+	profile = 'users/profile',
 }

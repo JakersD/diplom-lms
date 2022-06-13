@@ -1,6 +1,6 @@
 import { createSlice, Draft, PayloadAction } from '@reduxjs/toolkit';
 
-import { IUsersState } from '../models/user.model';
+import { IUsersState, IUserData } from '../models/user.model';
 
 const initialState: IUsersState = {
 	data: null,
@@ -28,6 +28,9 @@ export const userSlice = createSlice({
 		},
 		userLogout(state: Draft<IUsersState>) {
 			return { ...state, isAuthenticated: false };
+		},
+		userGetProfile(state: Draft<IUsersState>, action: PayloadAction<IUserData>) {
+			return { ...state, data: action.payload };
 		},
 	},
 });

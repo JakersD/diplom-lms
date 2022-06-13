@@ -5,10 +5,21 @@ export const FacultySchema = new mongoose.Schema({
         type: String,
         unique: 'true',
     },
-    dateStartSem: Date,
-    dateEndSem: Date,
-    dateStartPick: Date,
-    dateEndPick: Date,
+    shortName: {
+        type: String,
+        unique: 'true',
+    },
+    semester: {
+        type: Number,
+    },
+    year: [
+        {
+            dateStartSem: Date,
+            dateEndSem: Date,
+            dateStartPick: Date,
+            dateEndPick: Date,
+        },
+    ],
     groupIds: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -20,16 +31,24 @@ export const FacultySchema = new mongoose.Schema({
 export const GroupSchema = new mongoose.Schema({
     name: {
         type: String,
-        unique: true,
+    },
+    level: {
+        type: Number,
     },
     facultyId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Faculty',
     },
-    studentsIds: [
+    usersIds: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Users',
+        },
+    ],
+    lessonsIds: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Lessons',
         },
     ],
 });
@@ -37,6 +56,10 @@ export const GroupSchema = new mongoose.Schema({
 export const LessonsSchema = new mongoose.Schema({
     name: String,
     description: String,
+    facultyId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Faculty',
+    },
     teachersIds: [
         {
             type: mongoose.Schema.Types.ObjectId,

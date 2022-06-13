@@ -1,1 +1,1 @@
-export { loginUser } from './user.middleware';
+export * from './user.middleware';

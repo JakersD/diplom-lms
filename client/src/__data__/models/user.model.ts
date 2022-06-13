@@ -7,9 +7,15 @@ export interface ISignInRequest {
 	password: string;
 }
 
+export enum ERole {
+	admin = 'admin',
+	student = 'student',
+	teacher = 'teacher',
+}
+
 export interface IUserData {
-	token: string;
-	isAuthenticated: boolean;
+	role: ERole;
+	facultyId: string;
 }
 
 export interface IUsersState {

@@ -1,9 +1,9 @@
-import { ISignInRequest, storageName } from '../models';
+import { ISignInRequest, IUserData, storageName } from '../models';
 import { EEndpoints } from '../models/endpoints.model';
 import { userSlice } from '../reducers';
 import { AppDispatch } from '../store';
 import { getAuthToken } from '../utils';
-import { postToServer } from '../utils/endpoints.utils';
+import { postToServer, protectedGetFromServer } from '../utils/endpoints.utils';
 
 export const loginUser = (data: ISignInRequest) => async (dispatch: AppDispatch) => {
 	try {
@@ -41,5 +41,17 @@ export const checkLogin = () => async (dispatch: AppDispatch) => {
 
 	if (token) {
 		dispatch(userSlice.actions.userLoginSuccess());
+	}
+};
+
+export const getProfile = () => async (dispatch: AppDispatch) => {
+	const token = getAuthToken();
+
+	if (token) {
+		const response = await protectedGetFromServer(EEndpoints.profile, token);
+
+		const { data: profile }: { data: IUserData } = response;
+
+		dispatch(userSlice.actions.userGetProfile(profile));
 	}
 };

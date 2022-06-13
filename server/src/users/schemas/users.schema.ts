@@ -10,10 +10,8 @@ export const UsersSchema = new mongoose.Schema({
     fio: String,
     description: String,
     level: Number,
-    semester: Number,
     position: String,
     degree: String,
-    department: String,
     facultyId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Faculty',

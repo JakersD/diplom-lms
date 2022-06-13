@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
-import { ERole, User } from './interfaces/users.interface';
+import { User } from './interfaces/users.interface';
 
 @Injectable()
 export class UsersService {
@@ -15,11 +15,11 @@ export class UsersService {
     ) {}
 
     async signUp(AuthCredentialsDto: AuthCredentialsDto): Promise<void> {
-        const { username, password, role } = AuthCredentialsDto;
+        const { password } = AuthCredentialsDto;
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const user = new this.userModel({ username, password: hashedPassword, role });
+        const user = new this.userModel({ ...AuthCredentialsDto, password: hashedPassword });
 
         try {
             await user.save();
@@ -32,7 +32,7 @@ export class UsersService {
     }
 
     async signIn(user: User) {
-        const payload = { sub: user._id, username: user.username, role: user.role };
+        const payload = { username: user.username, role: user.role };
 
         return {
             accessToken: this.jwtService.sign(payload),
@@ -53,5 +53,20 @@ export class UsersService {
         }
 
         return null;
+    }
+
+    async getProfile(userCred: User) {
+        const { username } = userCred;
+
+        return await this.userModel
+            .findOne({ username }, { _id: 0, role: 1, facultyId: 1 })
+            .populate({
+                path: 'facultyId',
+                model: 'Faculty',
+                populate: {
+                    path: 'groupIds',
+                    model: 'Groups',
+                },
+            });
     }
 }
