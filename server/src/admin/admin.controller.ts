@@ -1,9 +1,13 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Put, Request, UseGuards } from '@nestjs/common';
+
 import { Role } from 'src/users/decorators/role.decorator';
 import { JwtAuthGuard } from 'src/users/guards/jwt-auth.guard';
 import { RoleGuard } from 'src/users/guards/role.guard';
 import { ERole } from 'src/users/interfaces/users.interface';
 import { AdminService } from './admin.service';
+import { LessonsBodyDto } from './dto/lessons-body.dto';
+import { PickDatesDto } from './dto/pick-dates-dto';
+import { PickSemDatesDto } from './dto/pick-sem-dates.dto';
 
 @Controller('admin')
 export class AdminController {
@@ -11,8 +15,36 @@ export class AdminController {
 
     @UseGuards(JwtAuthGuard, RoleGuard)
     @Role(ERole.admin)
-    @Post('/status')
-    async getStatus(@Body() { facultyShortName }) {
-        return await this.adminService.getStatus(facultyShortName);
+    @Get('/status')
+    async getStatus(@Request() req) {
+        return await this.adminService.getStatus(req.user);
+    }
+
+    @UseGuards(JwtAuthGuard, RoleGuard)
+    @Role(ERole.admin)
+    @Put('/pickDates')
+    async putPickDates(@Request() req, @Body() pickDatesDto: PickDatesDto) {
+        return this.adminService.putPickDates(req.user, pickDatesDto);
+    }
+
+    @UseGuards(JwtAuthGuard, RoleGuard)
+    @Role(ERole.admin)
+    @Put('/pickSemDates')
+    async putSemDates(@Request() req, @Body() PickSemDatesDto: PickSemDatesDto) {
+        return this.adminService.putSemDates(req.user, PickSemDatesDto);
+    }
+
+    @UseGuards(JwtAuthGuard, RoleGuard)
+    @Role(ERole.admin)
+    @Get('/lessonsList')
+    async getLessonsList(@Request() req) {
+        return this.adminService.getLessonsList(req.user);
+    }
+
+    @UseGuards(JwtAuthGuard, RoleGuard)
+    @Role(ERole.admin)
+    @Put('/lessonsList')
+    async updateLessonsList(@Body() lessonsBody: LessonsBodyDto) {
+        return this.adminService.updateLessonsList(lessonsBody);
     }
 }

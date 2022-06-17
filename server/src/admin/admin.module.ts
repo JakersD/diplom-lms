@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UsersSchema } from 'src/users/schemas/users.schema';
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 import { FacultySchema, GroupSchema, LessonsSchema } from './schemas/admin.schemas';
@@ -15,6 +16,10 @@ import { FacultySchema, GroupSchema, LessonsSchema } from './schemas/admin.schem
             {
                 name: 'Lessons',
                 schema: LessonsSchema,
+            },
+            {
+                name: 'Users',
+                schema: UsersSchema,
             },
         ]),
     ],

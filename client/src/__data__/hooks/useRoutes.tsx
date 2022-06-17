@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { LoginPage, MainPage, ProfilePage } from '../../pages';
+import { DisciplinesChoice } from '../../pages/main/admin';
 import { checkLogin, getProfile } from '../middlewares/user.middleware';
 import { ERole } from '../models';
 import { useTypedSelector } from './useRedux';
@@ -13,7 +14,12 @@ export const useRoutes = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		Promise.resolve(dispatch(checkLogin())).then(() => dispatch(getProfile()));
+		const fetchData = async () => {
+			await dispatch(checkLogin());
+			await dispatch(getProfile());
+		};
+
+		fetchData();
 	}, []);
 
 	if (isAuth) {
@@ -21,6 +27,7 @@ export const useRoutes = () => {
 			return (
 				<Routes>
 					<Route path='/' element={<MainPage />} />
+					<Route path='/disciplines' element={<DisciplinesChoice />} />
 					<Route path='*' element={<Navigate to={'/'} />} />
 				</Routes>
 			);

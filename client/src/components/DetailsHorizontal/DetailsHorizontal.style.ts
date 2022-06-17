@@ -23,3 +23,15 @@ export const SDetail = styled('p')(() => ({
 	margin: 0,
 	lineHeight: '19px',
 }));
+
+export const SModal = styled('div')(({ isOpen }: { isOpen: boolean }) => ({
+	display: isOpen ? 'block' : 'none',
+	borderRadius: '8px',
+	outline: 0,
+	boxShadow: '0px 1px 2px rgb(38 38 38 / 4%), 0px 4px 8px rgb(38 38 38 / 40%)',
+	position: 'absolute',
+	backgroundColor: '#fff',
+	height: '320px',
+	top: '38px',
+	zIndex: '1',
+}));

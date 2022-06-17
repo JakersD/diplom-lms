@@ -37,6 +37,7 @@ export const logoutUser = () => async (dispatch: AppDispatch) => {
 };
 
 export const checkLogin = () => async (dispatch: AppDispatch) => {
+	//TODO: ДОДЕЛАТЬ МЕТОД ПРОВЕРКИ ЛОГИНА
 	const token = getAuthToken();
 
 	if (token) {
@@ -45,11 +46,9 @@ export const checkLogin = () => async (dispatch: AppDispatch) => {
 };
 
 export const getProfile = () => async (dispatch: AppDispatch) => {
-	const token = getAuthToken();
+	const response = await protectedGetFromServer(EEndpoints.profile);
 
-	if (token) {
-		const response = await protectedGetFromServer(EEndpoints.profile, token);
-
+	if (response) {
 		const { data: profile }: { data: IUserData } = response;
 
 		dispatch(userSlice.actions.userGetProfile(profile));

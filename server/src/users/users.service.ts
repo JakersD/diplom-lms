@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
-import { User } from './interfaces/users.interface';
+import { ERole, User } from './interfaces/users.interface';
 
 @Injectable()
 export class UsersService {
@@ -20,6 +20,8 @@ export class UsersService {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = new this.userModel({ ...AuthCredentialsDto, password: hashedPassword });
+
+        console.log(user);
 
         try {
             await user.save();
@@ -56,17 +58,29 @@ export class UsersService {
     }
 
     async getProfile(userCred: User) {
-        const { username } = userCred;
+        const { username, role } = userCred;
+
+        if (role === ERole.admin) {
+            return await this.userModel
+                .findOne({ username }, { _id: 0, __v: 0, username: 0, password: 0 })
+                .populate({
+                    path: 'facultyId',
+                    model: 'Faculty',
+                    populate: {
+                        path: 'groupIds',
+                        model: 'Groups',
+                    },
+                });
+        }
 
         return await this.userModel
-            .findOne({ username }, { _id: 0, role: 1, facultyId: 1 })
-            .populate({
-                path: 'facultyId',
-                model: 'Faculty',
-                populate: {
-                    path: 'groupIds',
-                    model: 'Groups',
+            .findOne({ username }, { _id: 0, __v: 0, username: 0, password: 0 })
+            .populate(
+                {
+                    path: 'facultyId',
+                    model: 'Faculty',
                 },
-            });
+                { id: 0, __v: 0, groupsIds: 0 },
+            );
     }
 }

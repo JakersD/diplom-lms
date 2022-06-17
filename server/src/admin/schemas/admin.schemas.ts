@@ -9,17 +9,12 @@ export const FacultySchema = new mongoose.Schema({
         type: String,
         unique: 'true',
     },
-    semester: {
-        type: Number,
+    pickDates: {
+        type: mongoose.Schema.Types.Mixed,
     },
-    year: [
-        {
-            dateStartSem: Date,
-            dateEndSem: Date,
-            dateStartPick: Date,
-            dateEndPick: Date,
-        },
-    ],
+    pickSemDates: {
+        type: mongoose.Schema.Types.Mixed,
+    },
     groupIds: [
         {
             type: mongoose.Schema.Types.ObjectId,
