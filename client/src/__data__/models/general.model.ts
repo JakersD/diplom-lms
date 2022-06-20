@@ -22,3 +22,12 @@ export interface IGeneralState {
 	isLoading: boolean;
 	isError: boolean;
 }
+
+export enum ERooms {
+	A100 = 'A100',
+	A101 = 'A101',
+	A102 = 'A102',
+	A103 = 'A103',
+	A104 = 'A104',
+	A105 = 'A105',
+}

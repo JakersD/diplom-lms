@@ -6,5 +6,20 @@ import DetailsVertical from './DetailsVertical/DetailsVertical';
 import UserInfo from './UserInfo/UserInfo';
 import LessonsList from './LessonsList/LessonsList';
 import TableStyledCell from './Table/TableStyledCell';
+import DefaultInput from './ModalInputs/DefaultInput';
+import SelectLessonType from './ModalInputs/SelectLessonType';
+import SelectRoom from './ModalInputs/SelectRoom';
 
-export { Navbar, MainTitle, Container, DetailsVertical, DetailslHorizontal, UserInfo, LessonsList, TableStyledCell };
+export {
+	Navbar,
+	MainTitle,
+	Container,
+	DetailsVertical,
+	DetailslHorizontal,
+	UserInfo,
+	LessonsList,
+	TableStyledCell,
+	DefaultInput,
+	SelectLessonType,
+	SelectRoom,
+};

@@ -8,6 +8,7 @@ import { AdminService } from './admin.service';
 import { LessonsBodyDto } from './dto/lessons-body.dto';
 import { PickDatesDto } from './dto/pick-dates-dto';
 import { PickSemDatesDto } from './dto/pick-sem-dates.dto';
+import { ScheduleDto } from './dto/schedule.dto';
 
 @Controller('admin')
 export class AdminController {
@@ -46,5 +47,12 @@ export class AdminController {
     @Put('/lessonsList')
     async updateLessonsList(@Body() lessonsBody: LessonsBodyDto) {
         return this.adminService.updateLessonsList(lessonsBody);
+    }
+
+    @UseGuards(JwtAuthGuard, RoleGuard)
+    @Role(ERole.admin)
+    @Put('/saveSchedule')
+    async saveSchedule(@Request() req, @Body() scheduleDto: ScheduleDto) {
+        return this.adminService.saveScheduleService(req.user, scheduleDto);
     }
 }

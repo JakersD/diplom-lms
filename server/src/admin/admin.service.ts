@@ -11,6 +11,7 @@ import { Faculty, Groups, Lessons } from './interfaces/models.interface';
 import { EStatus } from './interfaces/status.interface';
 import { getUser } from './utils/admin.utils';
 import { ObjectId } from 'mongodb';
+import { ScheduleDto } from './dto/schedule.dto';
 
 @Injectable()
 export class AdminService {
@@ -46,23 +47,14 @@ export class AdminService {
             return EStatus.lessons;
         }
 
-        // Если не задано расписание предметов - статус выбора расписания для предметов
-        // const isSchedule = groups.some((group) => {
-        //     if (isEmpty(group.lessonsIds)) {
-        //         return true;
-        //     }
-        //     group.lessonsIds.some((lesson) => {
-        //         if (isEmpty(lesson.schedule)) {
-        //             return true;
-        //         }
-        //         lesson.schedule.some((sched) => isEmpty(sched));
-        //     });
-        // });
-        // if (isSchedule) {
-        //     return EStatus.schyedule;
-        // }
+        // @ts-ignore
+        const { isDone } = await this.facultyModel.findOne({ _id: faculty }, { _id: 0, isDone: 1 });
 
-        return EStatus.done;
+        if (isDone) {
+            return EStatus.done;
+        }
+
+        return EStatus.lessons;
     }
 
     async putPickDates(userCred: User, pickDatesDto: PickDatesDto) {
@@ -104,12 +96,48 @@ export class AdminService {
     }
 
     async updateLessonsList(LessonsBodyDto: LessonsBodyDto) {
-        const { groupName, pickedDisciplines } = LessonsBodyDto;
+        const { groupId, pickedDisciplines } = LessonsBodyDto;
 
         const objectIds = pickedDisciplines.map(
             (discipline) => new mongoose.Types.ObjectId(discipline),
         );
 
-        return await this.groupsModel.updateOne({ name: groupName }, { lessonsIds: objectIds });
+        return await this.groupsModel.updateOne({ _id: groupId }, { lessonsIds: objectIds });
+    }
+
+    async saveScheduleService(userCred: User, scheduleDto: ScheduleDto) {
+        const teacherIds = [];
+        for (let key in scheduleDto) {
+            teacherIds.push(scheduleDto[key].map((v) => v.lessonId));
+        }
+
+        const mergedTeacherIds = [].concat.apply([], teacherIds);
+        const dedublicateTeacherIds = [...new Set(mergedTeacherIds)];
+
+        for (let i = 0; i < dedublicateTeacherIds.length; i++) {
+            const formattedSchedule = [];
+
+            for (let key in scheduleDto) {
+                formattedSchedule.push(
+                    scheduleDto[key]
+                        .map((v) => (v.lessonId === dedublicateTeacherIds[i] ? v : ''))
+                        .filter((v) => v),
+                );
+            }
+            const formattedWithParitySchedule = formattedSchedule.map((v, i) =>
+                v.map((d) => (i === 0 ? { ...d, parity: 'even' } : { ...d, parity: 'odd' })),
+            );
+            const mergedFormattedWithParity = [].concat.apply([], formattedWithParitySchedule);
+
+            await this.lessonsModel.updateOne(
+                { _id: dedublicateTeacherIds[i] },
+                { schedule: mergedFormattedWithParity },
+            );
+        }
+
+        const userData = await getUser(userCred, this.userModel);
+        await this.facultyModel.updateOne({ _id: userData.facultyId }, { isDone: true });
+
+        return 'Ок';
     }
 }

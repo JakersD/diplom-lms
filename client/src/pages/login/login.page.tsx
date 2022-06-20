@@ -14,8 +14,10 @@ import { useTypedSelector } from '../../__data__/hooks';
 const LoginPage: React.FC = () => {
 	const username = useInput('username', [{ type: EValidationType.IS_REQUIRED }]);
 	const password = useInput('password', [{ type: EValidationType.IS_REQUIRED }]);
+
 	const { enqueueSnackbar } = useSnackbar();
 	const dispatch = useDispatch();
+
 	const { error, errorMsg, isLoading } = useTypedSelector((state) => state?.user);
 
 	const submitHandler = (e: React.FormEvent) => {

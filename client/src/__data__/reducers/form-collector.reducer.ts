@@ -1,8 +1,16 @@
 import { createSlice, Draft, PayloadAction } from '@reduxjs/toolkit';
-import { IFormCollectorInitial } from '../models';
+import { IFormNewLesson } from '../middlewares';
+import { IA, IFormCollectorInitial, ILesson } from '../models';
 
 const initialState: IFormCollectorInitial = {
 	datePick: [],
+	scheduler: {
+		even: [],
+		odd: [],
+	},
+	additionalLessons: [],
+	userSchedule: [],
+	successPicked: [],
 };
 
 export const formCollectorSlice = createSlice({
@@ -61,6 +69,75 @@ export const formCollectorSlice = createSlice({
 						dateEndSem: action.payload.date,
 					},
 				},
+			};
+		},
+		selectLesson(
+			state: Draft<IFormCollectorInitial>,
+			action: PayloadAction<{ lessonId: string; lessonName: string }>
+		) {
+			return {
+				...state,
+				scheduler: {
+					...state.scheduler,
+					select: action.payload,
+				},
+			};
+		},
+		selectTeacher(
+			state: Draft<IFormCollectorInitial>,
+			action: PayloadAction<{ teacherId: string; teacherName: string }>
+		) {
+			return {
+				...state,
+				scheduler: {
+					...state.scheduler,
+					select: {
+						...state.scheduler?.select,
+						teacherId: action.payload.teacherId,
+						teacherName: action.payload.teacherName,
+					},
+				},
+			};
+		},
+		resetSelect(state: Draft<IFormCollectorInitial>) {
+			return {
+				...state,
+				scheduler: {
+					...state.scheduler,
+					select: undefined,
+				},
+			};
+		},
+		addNewLessonToSchedule(
+			state: Draft<IFormCollectorInitial>,
+			action: PayloadAction<{ isEven: string; form: IFormNewLesson }>
+		) {
+			return {
+				...state,
+				scheduler: {
+					...state.scheduler,
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+					// @ts-ignore
+					[action.payload.isEven]: [...state.scheduler[action.payload.isEven], action.payload.form],
+				},
+			};
+		},
+		getAdditionalLessons(state: Draft<IFormCollectorInitial>, action: PayloadAction<Array<ILesson>>) {
+			return {
+				...state,
+				additionalLessons: action.payload,
+			};
+		},
+		addUserSchedule(state: Draft<IFormCollectorInitial>, action: PayloadAction<IA>) {
+			return {
+				...state,
+				userSchedule: [...state.userSchedule, action.payload],
+			};
+		},
+		addSuccessfulPicked(state: Draft<IFormCollectorInitial>, action: PayloadAction<boolean>) {
+			return {
+				...state,
+				successPicked: [...state.successPicked, action.payload],
 			};
 		},
 	},

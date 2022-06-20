@@ -10,14 +10,25 @@ interface IProps {
 	isPadding?: boolean;
 	padding?: string;
 	maxWidth?: string;
+	minHeight?: string;
 }
 
-const Container: React.FC<IProps> = ({ children, width, margin, maxHeight, padding, isFullHeight, maxWidth }) => {
+const Container: React.FC<IProps> = ({
+	children,
+	width,
+	margin,
+	maxHeight,
+	minHeight,
+	padding,
+	isFullHeight,
+	maxWidth,
+}) => {
 	return (
 		<SContainer
 			swidth={width}
 			smargin={margin}
 			smaxheight={maxHeight}
+			minheight={minHeight}
 			isfullheight={isFullHeight}
 			maxwidth={maxWidth}
 			padding={padding}

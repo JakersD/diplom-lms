@@ -1,4 +1,4 @@
 export class LessonsBodyDto {
-    groupName: string;
+    groupId: string;
     pickedDisciplines: Array<string>;
 }

@@ -12,6 +12,7 @@ export const UsersSchema = new mongoose.Schema({
     level: Number,
     position: String,
     degree: String,
+    schedule: [{ type: mongoose.Schema.Types.Mixed }],
     facultyId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Faculty',

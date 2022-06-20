@@ -20,6 +20,8 @@ export const getStatus = () => async (dispatch: AppDispatch) => {
 
 export const sendPick = () => async (dispatch: AppDispatch, getState: AppState) => {
 	try {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		const { datePick } = getState().formCollector;
 
 		await protectedPutToServer(EEndpoints.pick, datePick);
@@ -30,6 +32,8 @@ export const sendPick = () => async (dispatch: AppDispatch, getState: AppState) 
 
 export const sendSem = () => async (dispatch: AppDispatch, getState: AppState) => {
 	try {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		const { datePick } = getState().formCollector;
 
 		await protectedPutToServer(EEndpoints.sem, datePick);
@@ -53,14 +57,43 @@ export const getLessonsList = () => async (dispatch: AppDispatch) => {
 	}
 };
 
-export const sendLessonsList =
-	(groupName: string, pickedDisciplines: Array<string>) => async (dispatch: AppDispatch) => {
-		try {
-			const bodyToPut = { groupName, pickedDisciplines };
+export const sendLessonsList = (groupId: string, pickedDisciplines: Array<string>) => async (dispatch: AppDispatch) => {
+	try {
+		const bodyToPut = { groupId, pickedDisciplines };
 
-			await protectedPutToServer(EEndpoints.lessonsList, bodyToPut);
-		} catch (err) {
-			dispatch(generalSlice.actions.generalGetLessonsFailure());
-			console.error('Произошла ошибка', err);
-		}
-	};
+		await protectedPutToServer(EEndpoints.lessonsList, bodyToPut);
+	} catch (err) {
+		dispatch(generalSlice.actions.generalGetLessonsFailure());
+		console.error('Произошла ошибка', err);
+	}
+};
+
+export const sendSchedule = () => async (dispatch: AppDispatch, getState: AppState) => {
+	try {
+		const { even, odd } = getState().formCollector.scheduler;
+
+		const bodyToPut = { even, odd };
+
+		await protectedPutToServer(EEndpoints.saveSchedule, bodyToPut);
+	} catch (err) {
+		console.error('Произошла ошибка', err);
+	}
+};
+
+export const sendAdditionalUserLesson = (pickedDisciplines: Array<string>) => async (dispatch: AppDispatch) => {
+	try {
+		await protectedPutToServer(EEndpoints.additionalLessons, pickedDisciplines);
+	} catch (err) {
+		console.error('Произошла ошибка', err);
+	}
+};
+
+export const sendUserSchedule = () => async (dispatch: AppDispatch, getState: AppState) => {
+	try {
+		const schedule = getState().formCollector.userSchedule;
+
+		await protectedPutToServer(EEndpoints.sendUserSchedule, schedule);
+	} catch (err) {
+		console.error('Произошла ошибка', err);
+	}
+};

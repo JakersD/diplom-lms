@@ -8,6 +8,8 @@ import logout24 from './logout24.svg';
 import mainPerson from './mainPerson.png';
 import arrowDown24 from './arrowDown24.svg';
 import arrowRight24 from './arrowRight24.svg';
+import person10 from './person10.svg';
+import location10 from './location10.svg';
 
 export {
 	date24,
@@ -20,4 +22,6 @@ export {
 	logout24,
 	arrowDown24,
 	arrowRight24,
+	person10,
+	location10,
 };

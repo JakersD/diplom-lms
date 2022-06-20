@@ -4,4 +4,5 @@ export enum EStatus {
     lessons = 'lessons',
     schyedule = 'schedule',
     done = 'done',
+    error = 'error',
 }

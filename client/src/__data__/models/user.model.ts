@@ -1,3 +1,5 @@
+import { IA } from './form-collector.model';
+
 export type TError = unknown;
 
 export const storageName = 'userData';
@@ -28,9 +30,17 @@ export interface IPickSemDates {
 }
 
 export interface IGroup {
+	_id: string;
 	name: string;
 	level: number;
 	lessonsIds: ILesson[];
+}
+
+export interface ITeacher {
+	_id: string;
+	fio: string;
+	description: string;
+	position: string;
 }
 
 export interface ILesson {
@@ -38,6 +48,7 @@ export interface ILesson {
 	name: string;
 	description: string;
 	schedule: any;
+	teachersIds: Array<ITeacher>;
 }
 
 export interface IFaculty {
@@ -50,6 +61,12 @@ export interface IFaculty {
 export interface IUserData {
 	role: ERole;
 	facultyId: IFaculty;
+	level: number;
+	degree: string;
+	fio: string;
+	groupId: IGroup;
+	lessonsIds: Array<string> | [];
+	schedule: Array<IA>;
 }
 
 export interface IUsersState {

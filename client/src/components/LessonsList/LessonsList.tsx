@@ -15,10 +15,10 @@ import { useNavigate } from 'react-router-dom';
 
 interface IProps {
 	title: string;
-	groupName: string;
+	groupId: string;
 }
 
-const LessonsList: React.FC<IProps> = ({ title, groupName }): JSX.Element => {
+const LessonsList: React.FC<IProps> = ({ title, groupId }): JSX.Element => {
 	const [checkedState, setCheckedState] = useState<boolean[]>([]);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -45,7 +45,7 @@ const LessonsList: React.FC<IProps> = ({ title, groupName }): JSX.Element => {
 		const pickedDisciplines = checkedState.map((v, i) => (v ? lessons![i]._id : '')).filter((v) => v);
 
 		if (!isEmpty(pickedDisciplines)) {
-			await dispatch(sendLessonsList(groupName, pickedDisciplines));
+			await dispatch(sendLessonsList(groupId, pickedDisciplines));
 			navigate('/');
 		}
 	};
@@ -75,34 +75,32 @@ const LessonsList: React.FC<IProps> = ({ title, groupName }): JSX.Element => {
 							</TableHead>
 							<TableBody>
 								{lessons?.map((lesson, i) => (
-									<>
-										<TableRow
-											key={generateKey(String(i))}
-											onClick={() => handleCheck(i)}
+									<TableRow
+										key={generateKey(String(i))}
+										onClick={() => handleCheck(i)}
+										style={{ cursor: 'pointer' }}
+									>
+										<TableStyledCell padding='checkbox'>
+											<input
+												type='checkbox'
+												name={lesson.name}
+												value={lesson.name}
+												checked={checkedState[i]}
+												onChange={() => handleCheck(i)}
+											/>
+										</TableStyledCell>
+										<TableStyledCell>{lesson.name}</TableStyledCell>
+										<TableStyledCell
+											padding='checkbox'
 											style={{ cursor: 'pointer' }}
+											onClick={(e) => {
+												e.stopPropagation();
+												//TODO: Доделать появление информации о предметах
+											}}
 										>
-											<TableStyledCell padding='checkbox'>
-												<input
-													type='checkbox'
-													name={lesson.name}
-													value={lesson.name}
-													checked={checkedState[i]}
-													onChange={() => handleCheck(i)}
-												/>
-											</TableStyledCell>
-											<TableStyledCell>{lesson.name}</TableStyledCell>
-											<TableStyledCell
-												padding='checkbox'
-												style={{ cursor: 'pointer' }}
-												onClick={(e) => {
-													e.stopPropagation();
-													//TODO: Доделать появление информации о предметах
-												}}
-											>
-												<img src={arrowRight24} alt='Стрелка вправо' />
-											</TableStyledCell>
-										</TableRow>
-									</>
+											<img src={arrowRight24} alt='Стрелка вправо' />
+										</TableStyledCell>
+									</TableRow>
 								))}
 							</TableBody>
 						</Table>

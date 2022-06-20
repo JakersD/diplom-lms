@@ -34,7 +34,7 @@ const Navbar: React.FC<IProps> = ({ isDate = false, isNotification = false, isPr
 			<SWrapper>
 				<SFlexContainer>
 					<SItem to={'/'}>
-						<SLogo>Gachi Sheduler</SLogo>
+						<SLogo>Sheduler</SLogo>
 					</SItem>
 					<SFlexContainer>
 						<SItem to={'/'}>

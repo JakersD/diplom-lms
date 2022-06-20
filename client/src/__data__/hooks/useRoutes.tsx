@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { LoginPage, MainPage, ProfilePage } from '../../pages';
-import { DisciplinesChoice } from '../../pages/main/admin';
+import { DisciplinesChoice, SetupSchedule } from '../../pages/main/admin';
 import { checkLogin, getProfile } from '../middlewares/user.middleware';
 import { ERole } from '../models';
 import { useTypedSelector } from './useRedux';
@@ -28,6 +28,7 @@ export const useRoutes = () => {
 				<Routes>
 					<Route path='/' element={<MainPage />} />
 					<Route path='/disciplines' element={<DisciplinesChoice />} />
+					<Route path='/schedule' element={<SetupSchedule />} />
 					<Route path='*' element={<Navigate to={'/'} />} />
 				</Routes>
 			);

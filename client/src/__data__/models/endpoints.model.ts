@@ -5,4 +5,8 @@ export enum EEndpoints {
 	pick = 'admin/pickDates',
 	sem = 'admin/pickSemDates',
 	lessonsList = 'admin/lessonsList',
+	saveSchedule = 'admin/saveSchedule',
+	additionalLessons = 'users/additionalLessons',
+	userLessonsList = 'users/lessonsList',
+	sendUserSchedule = 'users/sendSchedule',
 }

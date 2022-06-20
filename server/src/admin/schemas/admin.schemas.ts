@@ -21,6 +21,9 @@ export const FacultySchema = new mongoose.Schema({
             ref: 'Groups',
         },
     ],
+    isDone: {
+        type: Boolean,
+    },
 });
 
 export const GroupSchema = new mongoose.Schema({
