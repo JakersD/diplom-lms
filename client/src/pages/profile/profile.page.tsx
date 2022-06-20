@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
 	Container,
@@ -16,27 +16,29 @@ import {
 import { SCalendarContainer, SContainer, SLessonsTitle, SLink, SWrapper } from './Profile.style';
 import { mainPerson } from '../../icons';
 import { TDetail } from '../../__data__/models';
-import { Table, TableBody, TableHead, TableRow } from '@mui/material';
+import { Box, CircularProgress, Table, TableBody, TableHead, TableRow } from '@mui/material';
 import { CalendarPicker } from '@mui/x-date-pickers';
 import { Link } from 'react-router-dom';
-
-const mockDetails: Array<TDetail> = [
-	{
-		title: 'Академическая степень',
-		data: 'Бакалавриат',
-	},
-	{
-		title: 'Направление',
-		data: '«Программное обеспечение и интеллектуальные системы»',
-	},
-	{
-		title: 'Группа',
-		data: 'БВТ',
-	},
-];
+import { useDispatch } from 'react-redux';
+import { setUserLessonsList } from '../../__data__/middlewares';
+import { useTypedSelector } from '../../__data__/hooks';
+import { generateKey } from '../../__data__/utils';
+import { isEmpty } from 'lodash';
+import { getUserData } from './utils';
 
 const ProfilePage: React.FC = (): JSX.Element => {
 	const [date, setDate] = useState<Date | null>(new Date());
+
+	const lessons = useTypedSelector((state) => state.formCollector.additionalLessons);
+	const user = useTypedSelector((state) => state.user.data);
+	const facultyName = useTypedSelector((state) => state.user.data?.facultyId.name);
+	const groupName = useTypedSelector((state) => state.user.data?.groupId.name);
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(setUserLessonsList());
+	}, []);
 
 	return (
 		<>
@@ -45,52 +47,29 @@ const ProfilePage: React.FC = (): JSX.Element => {
 			<SWrapper>
 				<SContainer>
 					<Container width='363px' margin='0 32px 0 0' isFullHeight>
-						<UserInfo name='Милос Рикардо Гачимучивич' icon={mainPerson} details={mockDetails} />
+						<UserInfo
+							name={user?.fio || ''}
+							icon={mainPerson}
+							details={getUserData(user?.degree || '', facultyName || '', groupName || '')}
+						/>
 					</Container>
 					<Container width='652px' margin='0 32px 0 0'>
 						<SLessonsTitle>Дисциплины</SLessonsTitle>
-						<Table sx={{ minWidth: 650 }} aria-label='simple table'>
-							<TableHead>
-								<TableRow>
-									<TableStyledCell>Дисциплина</TableStyledCell>
-									<TableStyledCell>Кол-во ак. часов</TableStyledCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								<TableRow>
-									<TableStyledCell>Безопасность жизнидеятельности</TableStyledCell>
-									<TableStyledCell>24 ч.</TableStyledCell>
-								</TableRow>
-								<TableRow>
-									<TableStyledCell>Архитектура центров обработки данных</TableStyledCell>
-									<TableStyledCell>24 ч.</TableStyledCell>
-								</TableRow>
-								<TableRow>
-									<TableStyledCell>Экономика отрасли</TableStyledCell>
-									<TableStyledCell>24 ч.</TableStyledCell>
-								</TableRow>
-								<TableRow>
-									<TableStyledCell>Системы искусственного интеллекта</TableStyledCell>
-									<TableStyledCell>24 ч.</TableStyledCell>
-								</TableRow>
-								<TableRow>
-									<TableStyledCell>Безопасность жизнидеятельности</TableStyledCell>
-									<TableStyledCell>24 ч.</TableStyledCell>
-								</TableRow>
-								<TableRow>
-									<TableStyledCell>Архитектура центров обработки данных</TableStyledCell>
-									<TableStyledCell>24 ч.</TableStyledCell>
-								</TableRow>
-								<TableRow>
-									<TableStyledCell>Экономика отрасли</TableStyledCell>
-									<TableStyledCell>24 ч.</TableStyledCell>
-								</TableRow>
-								<TableRow>
-									<TableStyledCell>Системы искусственного интеллекта</TableStyledCell>
-									<TableStyledCell>24 ч.</TableStyledCell>
-								</TableRow>
-							</TableBody>
-						</Table>
+						{isEmpty(lessons) ? (
+							<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+								<CircularProgress />
+							</Box>
+						) : (
+							<Table sx={{ minWidth: 650 }} aria-label='simple table'>
+								<TableBody>
+									{lessons?.map((lesson, i) => (
+										<TableRow key={generateKey(String(i))}>
+											<TableStyledCell>{lesson.name}</TableStyledCell>
+										</TableRow>
+									))}
+								</TableBody>
+							</Table>
+						)}
 					</Container>
 					<SCalendarContainer>
 						<Container isPadding margin='0 0 30px 0'>

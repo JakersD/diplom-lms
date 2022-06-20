@@ -53,6 +53,7 @@ export interface ILesson {
 
 export interface IFaculty {
 	shortName: string;
+	name: string;
 	pickDates: IPickDates;
 	pickSemDates: IPickSemDates;
 	groupIds: IGroup[];
