@@ -2,7 +2,7 @@
     "name": "diplom-lms-backend",
     "version": "1.0.0",
     "description": "Backend on nestjs for lms system",
-    "author": "Ekaterina Kolyada<kllk.spb@mail.ru>",
+    "author": "Cherkasov Ilya<ilyac.cherkasov@gmail.com>",
     "private": true,
     "license": "UNLICENSED",
     "scripts": {
